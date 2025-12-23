@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './App.css';
 
 export default function App() {
   const [taskData, setTaskData] = useState<string[]>([]);
@@ -16,6 +17,10 @@ export default function App() {
     }
   };
 
+  const handleTaskDelete = (index: number) => {
+    setTaskData(taskData.filter((_, i) => i != index));
+  }
+
   const startEdit = (index: number) => {
     setEditIndex(index);
     setEditText(taskData[index]);
@@ -28,8 +33,9 @@ export default function App() {
     setEditIndex(null);
   };
 
+
   return (
-    <>
+    <div id="container">
       <h1>Task App</h1>
       <label htmlFor="taskInput">New Task: </label>
       <input 
@@ -38,8 +44,13 @@ export default function App() {
         value={inputTaskValue} 
         onChange={(e) => setInputTaskValue(e.target.value)} 
       />
-      <button onClick={handleTaskAdd}>Add Task</button>
+      <button onClick={handleTaskAdd} style={{ marginLeft: "10px" }}>Add Task</button>
 
+      <div id="taskList">
+      <h3>Task List</h3>
+      {taskData.length === 0 ? (
+        <p>No tasks available.</p>
+      ) : (
       <ol>
         {taskData.map((task, index) => (
           <li key={index} style={{ marginBottom: "10px" }}>
@@ -63,9 +74,17 @@ export default function App() {
                 </button>
               </>
             )}
+            <button 
+              onClick={() => handleTaskDelete(index)}
+              style={{ marginLeft: "10px" }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ol>
-    </>
+      )}
+      </div>
+    </div>
   );
 }
