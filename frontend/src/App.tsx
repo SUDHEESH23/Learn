@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import './App.css';
 
 export default function App() {
@@ -6,32 +7,45 @@ export default function App() {
   const [inputTaskValue, setInputTaskValue] = useState("");
 
   // FIX 1: Specify that editIndex can be a number OR null
-  const [editIndex, setEditIndex] = useState<number | null>(null); 
-  const [editText, setEditText] = useState("");
+  // const [editIndex, setEditIndex] = useState<number | null>(null); 
+  // const [editText, setEditText] = useState("");
 
   // FIX 2: Only one handleTaskAdd function
-  const handleTaskAdd = () => {
-    if (inputTaskValue.trim()) {
-      setTaskData([...taskData, inputTaskValue]);
+  const handleTaskAdd = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://bookish-broccoli-qwqvrpggg5ghx7jx-5000.app.github.dev/api/tasks',
+        {
+          text: inputTaskValue
+        } 
+      );
+      setTaskData([...taskData, response.data.text]);
       setInputTaskValue("");
     }
-  };
-
-  const handleTaskDelete = (index: number) => {
-    setTaskData(taskData.filter((_, i) => i != index));
+    catch (error) {
+    console.error("Error saving task:", error);
   }
-
-  const startEdit = (index: number) => {
-    setEditIndex(index);
-    setEditText(taskData[index]);
+    // if (inputTaskValue.trim()) {
+    //   setTaskData([...taskData, inputTaskValue]);
+    //   setInputTaskValue("");
+    // }
   };
 
-  const saveEdit = (index: number) => {
-    const updatedList = [...taskData];
-    updatedList[index] = editText;
-    setTaskData(updatedList);
-    setEditIndex(null);
-  };
+  // const handleTaskDelete = (index: number) => {
+  //   setTaskData(taskData.filter((_, i) => i != index));
+  // }
+
+  // const startEdit = (index: number) => {
+  //   setEditIndex(index);
+  //   setEditText(taskData[index]);
+  // };
+
+  // const saveEdit = (index: number) => {
+  //   const updatedList = [...taskData];
+  //   updatedList[index] = editText;
+  //   setTaskData(updatedList);
+  //   setEditIndex(null);
+  // };
 
 
   return (
@@ -54,14 +68,15 @@ export default function App() {
       <ol>
         {taskData.map((task, index) => (
           <li key={index} style={{ marginBottom: "10px" }}>
-            {editIndex === index ? (
+            <span>{task}</span>
+            {/* {editIndex === index ? (
               <>
                 <input 
                   value={editText} 
                   onChange={(e) => setEditText(e.target.value)} 
                 />
                 <button onClick={() => saveEdit(index)}>Save</button>
-                <button onClick={() => setEditIndex(null)}>Cancel</button>
+                  <button onClick={() => setEditIndex(null)}>Cancel</button>
               </>
             ) : (
               <>
@@ -79,7 +94,7 @@ export default function App() {
               style={{ marginLeft: "10px" }}
             >
               Delete
-            </button>
+            </button> */}
           </li>
         ))}
       </ol>
