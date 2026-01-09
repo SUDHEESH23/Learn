@@ -9,13 +9,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 2. Middlewares (The "Translators")
 app.use(cors({
-  origin: 'https://bookish-broccoli-qwqvrpggg5ghx7jx-5173.app.github.dev', // Your exact frontend URL
-  credentials: true,
+  // Use your exact frontend URL from the error message
+  origin: 'https://bookish-broccoli-qwqvrpggg5ghx7jx-5173.app.github.dev',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-})); // Allows your React app to talk to this backend
+  credentials: true
+}));
 app.use(express.json()); // Converts incoming JSON strings into JS Objects (req.body)
 
 // 3. Database Connection Logic

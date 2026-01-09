@@ -13,6 +13,16 @@ const getTask = async (req, res) => {
 
 }
 
+const getAllTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find().sort({ createdAt: -1 });
+        res.status(200).json(tasks);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const createTask = async (req, res) => {
     try{
         const newTask = new Task(req.body);
@@ -24,7 +34,22 @@ const createTask = async (req, res) => {
     }
 }
 
+const deleteTask = async (req, res) => {
+    try {
+        const deletedTask = await Task.findByIdAndDelete(req.params.id);
+        if (!deletedTask) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+        res.json({ message: 'Task deleted successfully' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     getTask,
-    createTask
+    getAllTasks,
+    createTask,
+    deleteTask
 };
