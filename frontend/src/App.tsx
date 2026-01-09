@@ -54,29 +54,30 @@ export default function App() {
   return (
     <div id="container">
       <h1>Task App</h1>
-      <label htmlFor="taskInput">New Task: </label>
-      <input 
-        type="text" 
-        id="taskInput" 
-        value={inputTaskValue} 
-        onChange={(e) => setInputTaskValue(e.target.value)} 
-      />
-      <button onClick={handleTaskAdd} style={{ marginLeft: "10px" }}>Add Task</button>
-
+      <div id="inputSection">
+        <input 
+          type="text" 
+          id="taskInput" 
+          placeholder="Enter the new task"
+          value={inputTaskValue} 
+          onChange={(e) => setInputTaskValue(e.target.value)} 
+        />
+        <button onClick={handleTaskAdd} style={{ marginLeft: "10px" }}>Add Task</button>
+      </div>
       <div id="taskList">
-      <h3>Task List</h3>
-      {taskData.length === 0 ? (
-        <p>No tasks available.</p>
-      ) : (
-      <ol>
-        {taskData.map((task) => (
-          <li key={task._id} style={{ marginBottom: "10px" }}>
-            <span>{task.text}</span>
-            <button style={{ marginLeft: "10px", color: "red"}} onClick={() => handleDeleteTask(task._id)}>Delete</button>
-          </li>
-        ))}
-      </ol>
-      )}
+        <h3>Task List</h3>
+        {taskData.length === 0 ? (
+          <p>No tasks available.</p>
+        ) : (
+        <ol>
+          {taskData.map((task) => (
+            <li key={task._id} style={{ marginBottom: "10px" }}>
+              <span>{task.text}</span>
+              <button style={{ marginLeft: "10px", color: "red"}} onClick={() => handleDeleteTask(task._id)}>Delete</button>
+            </li>
+          ))}
+        </ol>
+        )}
       </div>
     </div>
   );

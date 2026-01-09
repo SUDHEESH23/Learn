@@ -1,40 +1,41 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: black;
-  background-color: white;
-}
-
 body {
-  margin: 0;
   display: flex;
-  justify-content: center;
-  min-height: 100vh;       /* 100% of the Viewport Height */
-  font-family: sans-serif;
-  background-color: white;
+  justify-content: center; /* Horizontal centering */
+  align-items: flex-start; /* Keeps the app at the top (standard for apps) */
+  min-height: 100vh;      /* Makes the body the full height of the screen */
+  margin: 0;     /* Gives some space at the top */
 }
 
-h1 {
-  text-align: center;
-  padding: 10px;
-  margin: 10px;
+#container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-input {
-  border: 2px solid black;
-  padding: 10px;
-  border-radius: 5px;
+#inputSection {
+  display: flex;
+  gap: 10px;
 }
 
-button {
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 9px;
+#inputSection input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#inputSection button {
+  padding: 0 20px;     /* 7. Width based on text + padding */
+  background: #6366f1;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 #taskList {
-  margin-top: 20px;
+  list-style: none;    /* 1. Remove bullet points */
+  padding: 0;          /* 2. Remove default browser indentation */
+  margin: 0;    /* 3. Space between input section and list */
+  display: flex;
+  flex-direction: column;           /* 4. Equal space between every task box */
 }
