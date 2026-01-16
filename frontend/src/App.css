@@ -1,15 +1,22 @@
+* {
+  box-sizing: border-box; /* 4. Consistent box sizing */
+  font-family: Arial, sans-serif; /* 5. Clean, modern font */
+  margin: 0;
+  padding: 0;
+}
+
 body {
   display: flex;
   justify-content: center; /* Horizontal centering */
   align-items: flex-start; /* Keeps the app at the top (standard for apps) */
   min-height: 100vh;      /* Makes the body the full height of the screen */
-  margin: 0;     /* Gives some space at the top */
 }
 
 #container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 50px;
+  margin-top: 50px; 
 }
 
 #inputSection {
@@ -33,9 +40,16 @@ body {
 }
 
 #taskList {
-  list-style: none;    /* 1. Remove bullet points */
-  padding: 0;          /* 2. Remove default browser indentation */
-  margin: 0;    /* 3. Space between input section and list */
   display: flex;
-  flex-direction: column;           /* 4. Equal space between every task box */
+  flex-direction: column;
+  gap: 20px;            /* 6. Space between list items */
+}
+
+#taskList li {
+  list-style: none;    /* 1. Remove bullet points */
+  margin-bottom: 20px;
+}
+
+#taskList li button {
+  margin-left: 20px;
 }

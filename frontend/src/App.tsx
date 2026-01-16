@@ -1,84 +1,68 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { useTasks } from "./hooks/useTasks";
 import './App.css';
 
-interface Task {
-  _id: string;
-  text: string;
-  completed: boolean;
-}
-
 export default function App() {
-  const [taskData, setTaskData] = useState<Task[]>([]);
-  const [inputTaskValue, setInputTaskValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const { taskData, loading, addNewTask, removeTask, editTask } = useTasks();
 
-  const handleTaskAdd = async () => {
-    try {
-      const response = await axios.post('https://bookish-broccoli-qwqvrpggg5ghx7jx-5000.app.github.dev/api/tasks',
-        {
-          text: inputTaskValue
-        } 
-      );
-      setInputTaskValue("");
-      fetchTasks();
-    }
-    catch (error) {
-    console.error("Error saving task:", error);
-  }
-  };
+  const [editTaskId, setEditTaskId] = useState<string | null>(null);
+  const [editTaskText, setEditTaskText] = useState("");
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.get('https://bookish-broccoli-qwqvrpggg5ghx7jx-5000.app.github.dev/api/tasks');
-      setTaskData(response.data);
-    }
-    catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
+  const handleEditClick = (task: any) => {
+    setEditTaskId(task._id);
+    setEditTaskText(task.text);
   }
 
-  const handleDeleteTask = async (taskId: string) => {
-    try {
-      await axios.delete(`https://bookish-broccoli-qwqvrpggg5ghx7jx-5000.app.github.dev/api/tasks/${taskId}`);
-      fetchTasks();
-    }
-    catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
+  const handleSaveEdit = async (id: string) => {
+    await editTask(id, editTaskText);
+    setEditTaskId(null);
+  }
 
-  useEffect(() => {
-    fetchTasks();
-  }, [])
+  const handleAdd = async () => {
+    if (!inputValue.trim()) return;
+    await addNewTask(inputValue);
+    setInputValue("");
+  };
 
   return (
     <div id="container">
       <h1>Task App</h1>
       <div id="inputSection">
         <input 
-          type="text" 
-          id="taskInput" 
-          placeholder="Enter the new task"
-          value={inputTaskValue} 
-          onChange={(e) => setInputTaskValue(e.target.value)} 
+          value={inputValue} 
+          onChange={(e) => setInputValue(e.target.value)} 
+          placeholder="New task..."
         />
-        <button onClick={handleTaskAdd} style={{ marginLeft: "10px" }}>Add Task</button>
+        <button onClick={handleAdd}>Add</button>
       </div>
       <div id="taskList">
-        <h3>Task List</h3>
-        {taskData.length === 0 ? (
-          <p>No tasks available.</p>
-        ) : (
-        <ol>
-          {taskData.map((task) => (
-            <li key={task._id} style={{ marginBottom: "10px" }}>
-              <span>{task.text}</span>
-              <button style={{ marginLeft: "10px", color: "red"}} onClick={() => handleDeleteTask(task._id)}>Delete</button>
+      <h2>Tasks</h2>
+      {loading ? <p>Loading...</p> : (
+        <ul>
+          {taskData.map(task => (
+            <li key={task._id}>
+              {editTaskId === task._id ? (
+                <>
+                  <input 
+                    value={editTaskText} 
+                    onChange={(e) => setEditTaskText(e.target.value)} 
+                  />
+                  <button onClick={() => handleSaveEdit(task._id)}>Save</button>
+                  <button onClick={() => setEditTaskId(null)}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <span>{task.text}</span>
+                  <button onClick={() => handleEditClick(task)}>Edit</button>
+                  <button onClick={() => removeTask(task._id)}>Delete</button>
+                </>
+              )}
             </li>
           ))}
-        </ol>
-        )}
-      </div>
+        </ul>
+      )}
+    </div>
     </div>
   );
 }
