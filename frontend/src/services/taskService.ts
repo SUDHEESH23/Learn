@@ -18,5 +18,8 @@ export const taskService = {
   updateTask: async (taskId: string, newText: string): Promise<Task> => {
   const response = await axios.put(`${BASE_URL}/${taskId}`, { text: newText });
   return response.data;
-},
-};
+  },
+  updateStatus: async (taskId: string, completed: boolean): Promise<Task> => {
+    return axios.patch(`${BASE_URL}/${taskId}`, { completed });
+  }
+  };

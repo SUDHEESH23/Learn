@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   // Use your exact frontend URL from the error message
   origin: 'https://bookish-broccoli-qwqvrpggg5ghx7jx-5173.app.github.dev',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true
 }));
 app.use(express.json()); // Converts incoming JSON strings into JS Objects (req.body)

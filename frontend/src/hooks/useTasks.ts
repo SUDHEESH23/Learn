@@ -34,9 +34,19 @@ export const useTasks = () => {
   }
 };
 
+  const toggleTaskStatus = async (id: string, completed: boolean) => {
+    try {
+      await taskService.updateStatus(id, !completed);
+      await loadTasks();
+    }
+    catch (error) {
+      console.error("Error toggling task status:", error);
+    }
+  }
+
   useEffect(() => {
     loadTasks();
   }, []);
 
-  return { taskData, loading, addNewTask, removeTask, editTask };
+  return { taskData, loading, addNewTask, removeTask, editTask, toggleTaskStatus };
 };

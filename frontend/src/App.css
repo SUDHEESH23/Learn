@@ -1,24 +1,37 @@
 * {
-  box-sizing: border-box; /* 4. Consistent box sizing */
-  font-family: Arial, sans-serif; /* 5. Clean, modern font */
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, sans-serif; /* Added Inter for a more modern look */
   margin: 0;
   padding: 0;
 }
 
 body {
   display: flex;
-  justify-content: center; /* Horizontal centering */
-  align-items: flex-start; /* Keeps the app at the top (standard for apps) */
-  min-height: 100vh;      /* Makes the body the full height of the screen */
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Added a light background for contrast */
 }
 
 #container {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 30px; /* Reduced gap for tighter vertical rhythm */
   margin-top: 50px; 
+  width: 90%; /* Responsive: takes 90% of screen on mobile */
+  max-width: 500px; /* Limits size on desktop */
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+  text-align: center;
+  color: #111827;
+}
+
+/* --- Input Section --- */
 #inputSection {
   display: flex;
   gap: 10px;
@@ -27,29 +40,84 @@ body {
 #inputSection input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 #inputSection button {
-  padding: 0 20px;     /* 7. Width based on text + padding */
+  padding: 0 20px;
   background: #6366f1;
   color: white;
-  border-radius: 6px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#inputSection button:hover {
+  background: #4f46e5;
+}
+
+/* --- Task List Section --- */
+#taskList ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Uniform spacing using gap instead of margin-bottom */
+}
+
+/* The "Box" for each task */
+.task-row {
+  display: flex;
+  align-items: center; /* Vertically center checkbox, text, and buttons */
+  gap: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* THE SECRET: This makes the text fill all middle space */
+.task-text {
+  flex: 1;
+  text-align: left;
+  font-size: 1rem;
+  color: #374151;
+}
+
+/* Conditional Styling for Completion */
+.completed {
+  text-decoration: line-through;
+  color: #9ca3af;
+  opacity: 0.6;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
   cursor: pointer;
 }
 
-#taskList {
+/* --- Action Buttons --- */
+.actions {
   display: flex;
-  flex-direction: column;
-  gap: 20px;            /* 6. Space between list items */
+  gap: 8px;
 }
 
-#taskList li {
-  list-style: none;    /* 1. Remove bullet points */
-  margin-bottom: 20px;
+.edit-btn, .delete-btn, .save-btn, .cancel-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
-#taskList li button {
-  margin-left: 20px;
-}
+.edit-btn { background: #f3f4f6; color: #374151; }
+.delete-btn { background: #fee2e2; color: #dc2626; }
+.save-btn { background: #6366f1; color: white; }
+.cancel-btn { background: #e5e7eb; color: #374151; }
+
+.delete-btn:hover { background: #fecaca; }
